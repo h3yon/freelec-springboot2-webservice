@@ -1,5 +1,6 @@
 package com.h3yon.book.springboot.web;
 
+import com.h3yon.book.springboot.config.auth.LoginUser;
 import com.h3yon.book.springboot.config.auth.dto.SessionUser;
 import com.h3yon.book.springboot.service.posts.PostsService;
 import com.h3yon.book.springboot.web.dto.PostsResponseDto;
@@ -19,11 +20,12 @@ public class IndexController {
     private final HttpSession httpSession;
 
     @GetMapping("/")
-    public String index(Model model){ // Model: posts로 전달하기 위함
+    public String index(Model model, @LoginUser SessionUser user){ // Model: posts로 전달하기 위함
         model.addAttribute("posts", postsService.findAllDesc());
-        // userName 사용할 수 있도록 추가
-        // 세션에 저장되어 있는 정보로 진행
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+
+        // 이 커밋의 목표: 여기 부분 성능 향상
+//        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+
         if(user != null){
             model.addAttribute("userName", user.getName());
         }
