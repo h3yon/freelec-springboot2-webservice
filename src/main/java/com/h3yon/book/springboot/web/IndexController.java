@@ -1,15 +1,25 @@
 package com.h3yon.book.springboot.web;
 
+import com.h3yon.book.springboot.service.posts.PostsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+@RequiredArgsConstructor
 @Controller
 public class IndexController {
 
-    @GetMapping("/")
-    public String index(){
+    private final PostsService postsService;
 
-        // ViewResolver가 처리해줌
+    @GetMapping("/")
+    public String index(Model model){ // Model: posts로 전달하기 위함
+        model.addAttribute("posts", postsService.findAllDesc());
         return "index";
+    }
+
+    @GetMapping("/posts/save")
+    public String postsSave(){
+        return "posts-save";
     }
 }
