@@ -1,5 +1,6 @@
 package com.h3yon.book.springboot.domain.posts;
 
+import com.h3yon.book.springboot.domain.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Posts {
+public class Posts extends BaseTimeEntity {
 
     @Id @GeneratedValue
     private Long id;
