@@ -1,5 +1,6 @@
 package com.h3yon.book.springboot.web;
 
+import com.h3yon.book.springboot.config.auth.dto.SessionUser;
 import com.h3yon.book.springboot.service.posts.PostsService;
 import com.h3yon.book.springboot.web.dto.PostsResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -8,15 +9,24 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.servlet.http.HttpSession;
+
 @RequiredArgsConstructor
 @Controller
 public class IndexController {
 
     private final PostsService postsService;
+    private final HttpSession httpSession;
 
     @GetMapping("/")
     public String index(Model model){ // Model: posts로 전달하기 위함
         model.addAttribute("posts", postsService.findAllDesc());
+        // userName 사용할 수 있도록 추가
+        // 세션에 저장되어 있는 정보로 진행
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if(user != null){
+            model.addAttribute("userName", user.getName());
+        }
         return "index";
     }
 
